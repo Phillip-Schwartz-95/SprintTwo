@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Generator</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body onload="onInit()">
+    <header class="main-header">
+        <img src="img/logo.png" alt="Meme Generator Logo" class="logo" onclick="showGallery()">
+        
+        <nav class="nav-links">
+            <a href="#" onclick="toggleEditor(false)">Gallery</a>
+            <a href="#" onclick="toggleEditor(true)">Editor</a>
+            <a href="#" onclick="showMemes()">Memes</a>
+            <a href="#" onclick="showAbout()">About</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="image-gallery">
+            <h2 class="section-title">Choose an Image</h2>
+            <div class="gallery-container">
+
+            </div>
+        </section>
+
+        <section class="meme-editor hidden">
+            <h2 class="section-title">Edit Your Meme</h2>
+            <canvas class="meme-canvas"></canvas>
+            <input type="text" class="meme-text" placeholder="Enter meme text" oninput="onLineTxtChange()">
+            <label for="text-color-picker">Select Text Color:</label>
+            <input type="color" class="text-color-picker" oninput="onSetColor()">
+            <label for="font-size-meter">Adjust Font Size:</label>
+            <input type="range" id="font-size-meter" min="10" max="100" value="20" oninput="onFontSizeChange()">
+
+
+            <a class="btn-download" href="#" onclick="onDownloadMeme(this)" download="meme.jpg">Download Meme</a>
+            <button class="btn-back" onclick="toggleEditor(false)">Back to Gallery</button>
+
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/gallery-controller.js"></script>
+    <script src="js/meme-service.js"></script>
+    <script src="js/meme-controller.js"></script>
+
+</body>
+
+</html>

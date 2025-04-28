@@ -31,12 +31,16 @@
 
         <section class="meme-editor hidden">
             <h2 class="section-title">Edit Your Meme</h2>
-            <canvas class="meme-canvas"></canvas>
+            <canvas class="meme-canvas" onclick="onCanvasClick(event)"></canvas>
             <input type="text" class="meme-text" placeholder="Enter meme text" oninput="onLineTxtChange()">
             <label for="text-color-picker">Select Text Color:</label>
             <input type="color" class="text-color-picker" oninput="onSetColor()">
             <label for="font-size-meter">Adjust Font Size:</label>
             <input type="range" id="font-size-meter" min="10" max="100" value="20" oninput="onFontSizeChange()">
+
+            <button onclick="onAddLine()">➕ Add Line</button>
+            <button onclick="onSwitchLine()">🔄 Switch Line</button>
+
 
 
             <a class="btn-download" href="#" onclick="onDownloadMeme(this)" download="meme.jpg">Download Meme</a>

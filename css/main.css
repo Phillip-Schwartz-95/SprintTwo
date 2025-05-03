@@ -1,9 +1,16 @@
-/* Grid layout for the main container */
-body {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f2f2f2;
+    color: #333;
+    line-height: 1.6;
+    padding-bottom: 40px;
 }
 
 /* Flexbox for the header */
@@ -11,13 +18,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #222;
+    background: #2c3e50;
+    color: #ecf0f1;
+    box-shadow: 0 2px 5px rgb(0, 0, 0);
     padding: 1rem;
 }
 
 /* Logo styling */
-.logo {
-    width: 80px; /* Adjust logo size */
+.main header .logo {
+    width: 80px;
+    /* Adjust logo size */
     cursor: pointer;
 }
 
@@ -34,24 +44,195 @@ body {
     font-size: 1.2rem;
 }
 
+.nav-links a:hover {
+    color: #e74c3c;
+}
+
 /* Hide and show sections dynamically */
 .hidden {
     display: none;
 }
 
 .active {
-    display: grid;
+    display: block;
 }
 
-/* Responsive canvas */
-.meme-canvas {
+/* Main layout: side-by-side on desktop */
+main {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Image Gallery (desktop default) */
+
+.section-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #c21708bb;
+}
+
+.image-gallery {
+    margin: 20px auto;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.btn-random, 
+.btn-upload {
+    display: inline-block;
+    margin: 20px 0;
+    background-color: #3498db;   
+    color: #fff;                 
+    padding: 10px 20px;          
+    border-radius: 3px;          
+    text-align: center;          
+    font-size: 1rem;             
+    text-decoration: none;       
+    border: none;                
+    cursor: pointer;             
+    transition: background-color 0.3s ease;
+}
+
+.btn-random:hover, 
+.btn-upload:hover {
+    background-color: #2980b9;
+}
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    grid-gap: 20px;
+    
+}
+
+.gallery-container img {
     width: 100%;
     height: auto;
-    max-width: 600px;
+    object-fit: cover;
+    border: 1px solid #161616a8;
+    cursor: pointer;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+.gallery-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Meme Editor (desktop default) */
+/* Container for canvas and controls */
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    /* Left: canvas takes available space; Right: fixed 300px */
+    gap: 20px;
+    align-items: start;
+}
+
+/* Canvas styling */
+.meme-editor .meme-canvas {
+    width: 100%;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    background: #ecf0f1
+    /* Height set dynamically or as needed */
+}
+
+/* Right-side controls grid: now with 5 rows */
+.editor-controls {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+    gap: 10px;
+    width: 300px;
+}
+
+/* Row 1: Meme text spanning all columns */
+.editor-controls .meme-text {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+/* Row 2: Color controls */
+.editor-controls .color-label {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
+.editor-controls .text-color-picker {
+    grid-column: 3 / span 2;
+    grid-row: 2;
+}
+
+/* Row 3: Font size controls */
+.editor-controls .size-label {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+}
+
+.editor-controls #font-size-meter {
+    grid-column: 3 / span 2;
+    grid-row: 3;
+}
+
+/* Row 4: New controls for font family and alignment */
+.editor-controls .controls {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+}
+
+/* Nested grid: font selection row */
+.editor-controls .font-control {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Nested grid: alignment controls row */
+.editor-controls .align-control {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+/* Row 5: Action buttons */
+.editor-controls .btn-add {
+    grid-column: 1;
+    grid-row: 5;
+}
+
+.editor-controls .btn-switch {
+    grid-column: 2;
+    grid-row: 5;
+}
+
+.editor-controls .btn-download {
+    grid-column: 3;
+    grid-row: 5;
+}
+
+.editor-controls .btn-back {
+    grid-column: 4;
+    grid-row: 5;
+}
+
+/* Optional: Responsive adjustments for tablet devices */
+@media (max-width: 820px) {
+    .gallery-container {
+        grid-template-columns: repeat(2, 240px);
+    }
+}
+
+/* Responsive adjustments for mobile*/
+@media (max-width: 600px) {
     .main-header {
         flex-direction: column;
         align-items: center;
@@ -62,7 +243,31 @@ body {
         gap: 15px;
     }
 
+    /* images are in two-column max */
+    .gallery-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* canvas is 90% of mobile screen size */
     .meme-canvas {
         width: 90%;
+    }
+
+    /* Change the editor container to a one-column grid */
+    .editor-container {
+        grid-template-columns: 1fr;
+        /* Stacks canvas and controls vertically */
+    }
+
+    /* Make sure the canvas spans the full width */
+    .meme-editor .meme-canvas {
+        width: 100%;
+    }
+
+    /* Adjust the editor controls so that it takes all available width */
+    .editor-controls {
+        width: 100%;
+        /* Remove fixed width */
+        max-width: 100%;
     }
 }

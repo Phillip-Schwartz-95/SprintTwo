@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     <link rel="stylesheet" href="css/main.css">
+
 </head>
 
 <body onload="onInit()">
     <header class="main-header">
         <img src="img/logo.png" alt="Meme Generator Logo" class="logo" onclick="showGallery()">
-        
+
         <nav class="nav-links">
             <a href="#" onclick="toggleEditor(false)">Gallery</a>
             <a href="#" onclick="toggleEditor(true)">Editor</a>
@@ -24,29 +30,90 @@
 
         <section class="image-gallery">
             <h2 class="section-title">Choose an Image</h2>
-            <div class="gallery-container">
 
-            </div>
+            <div class="gallery-actions">
+                <button class="btn-random" onclick="onLoadRandomPicture()">Random Meme</button>
+                <label class="btn-upload" for="uploadImg">
+                    <i class="fas fa-upload"></i> Upload Picture
+                </label>
+                <input id="uploadImg" type="file" accept="image/*" onchange="onUploadPicture(event)"
+                    style="display: none;">
+
+                <div class="gallery-container">
+                    <!-- gallery images loaded -->
+                </div>
         </section>
 
         <section class="meme-editor hidden">
             <h2 class="section-title">Edit Your Meme</h2>
-            <canvas class="meme-canvas" onclick="onCanvasClick(event)"></canvas>
-            <input type="text" class="meme-text" placeholder="Enter meme text" oninput="onLineTxtChange()">
-            <label for="text-color-picker">Select Text Color:</label>
-            <input type="color" class="text-color-picker" oninput="onSetColor()">
-            <label for="font-size-meter">Adjust Font Size:</label>
-            <input type="range" id="font-size-meter" min="10" max="100" value="20" oninput="onFontSizeChange()">
+            <div class="editor-container">
+                <canvas class="meme-canvas"></canvas>
+                <div class="editor-controls">
+                    <!-- Row 1: Meme Text Input -->
+                    <input type="text" class="meme-text" placeholder="Enter meme text" oninput="onLineTxtChange()">
 
-            <button onclick="onAddLine()">➕ Add Line</button>
-            <button onclick="onSwitchLine()">🔄 Switch Line</button>
+                    <!-- Row 2: Color Controls -->
+                    <label for="text-color-picker" class="color-label">Select Text Color:</label>
+                    <input type="color" class="text-color-picker" oninput="onSetColor()">
 
+                    <!-- Row 3: Font Size Controls -->
+                    <label for="font-size-meter" class="size-label">Adjust Font Size:</label>
+                    <input type="range" id="font-size-meter" min="10" max="100" value="20" oninput="onFontSizeChange()">
 
+                    <!-- Row 4: New Controls for Font Family & Alignment -->
+                    <div class="controls">
 
-            <a class="btn-download" href="#" onclick="onDownloadMeme(this)" download="meme.jpg">Download Meme</a>
-            <button class="btn-back" onclick="toggleEditor(false)">Back to Gallery</button>
+                        <!-- Nested row for font selection -->
+                        <div class="font-control">
+                            <label for="fontSelect">Choose Font:</label>
+                            <select id="fontSelect" onchange="onChangeFont(this.value)">
+                                <option value="Arial">Arial</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Tahoma">Tahoma</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Impact">Impact</option>
+                                <!-- Add more fonts as desired -->
+                            </select>
+                        </div>
 
+                        <!-- Nested row for alignment buttons -->
+                        <div class="align-control">
+                            <button onclick="onChangeAlignment('left')" title="Align Left">
+                                <i class="fa-solid fa-align-left"></i>
+                            </button>
+                            <button onclick="onChangeAlignment('center')" title="Align Center">
+                                <i class="fa-solid fa-align-center"></i>
+                            </button>
+                            <button onclick="onChangeAlignment('right')" title="Align Right">
+                                <i class="fa-solid fa-align-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Action Buttons -->
+                    <button class="btn-add" onclick="onAddLine()">➕ Add Line</button>
+                    <button class="btn-switch" onclick="onSwitchLine()">🔄 Switch Line</button>
+                    <button class="btn-delete" onclick="onDeleteLine()">✖ Delete Selected Line</button>
+                    <button class="btn-download" onclick="onDownloadMeme(this)" download="meme.jpg">
+                        <i class="fas fa-download"></i> Download Meme
+                    </button>
+                    <button class="btn-save" onclick="onSaveMeme()">
+                        <i class="fa-solid fa-save"></i> Save Meme
+                    </button>
+                    <button class="btn-back" onclick="toggleEditor(false)">⬅️ Back to Gallery</button>
+                </div>
+            </div>
         </section>
+
+        <!-- Saved Memes Section -->
+        <section class="user-memes hidden">
+            <h2 class="section-title">My Saved Memes</h2>
+            <div class="memes-container">
+                <!-- Saved memes rendered here -->
+            </div>
+        </section>
+
     </main>
 
     <script src="js/main.js"></script>

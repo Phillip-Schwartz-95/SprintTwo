@@ -35,7 +35,8 @@ var gMeme = {
             x: 200,  
             y: 50,   
             width: 0,  // These will be calculated
-            height: 0  // during rendering
+            height: 0,  // during rendering
+            isSticker: false
         }
     ]
 }
@@ -50,9 +51,6 @@ function getImageById(imgId) {
 
 // Function to retrieve the current meme object
 function getMeme() {
-    if (!gMeme.isDragging) {
-        gMeme.selectedLineIdx = null
-    }
     return gMeme
 }
 

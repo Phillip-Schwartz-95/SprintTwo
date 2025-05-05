@@ -73,6 +73,20 @@
                             oninput="onFontSizeChange()">
                     </div>
 
+                    <div class="control-row">
+                        <label for="sticker-select">Add Sticker:</label>
+                        <select id="sticker-select" onchange="onSelectSticker(this.value)">
+                            <option value="" disabled selected>See Stickers 😄</option>
+                            <option value="😂">😂</option>
+                            <option value="🔥">🔥</option>
+                            <option value="😎">😎</option>
+                            <option value="💯">💯</option>
+                            <option value="👀">👀</option>
+                            <option value="🤡">🤡</option>
+                            <option value="🐶">🐶</option>
+                        </select>
+                    </div>
+
                     <!-- Row 4: Font Family & Alignment -->
                     <div class="control-row controls">
                         <div class="font-control">

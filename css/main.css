@@ -7,10 +7,11 @@
 /* Body styling */
 body {
     font-family: 'Arial', sans-serif;
-    background: #f2f2f2;
+    background: linear-gradient(to bottom right, #f2f2f2, #9249be);
     color: #333;
     line-height: 1.6;
     padding-bottom: 40px;
+    min-height: 100vh;
 }
 
 /* Flexbox for the header */
@@ -18,17 +19,22 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #2c3e50;
+    background: linear-gradient(45deg, #2c3e50, #235d97);
     color: #ecf0f1;
-    box-shadow: 0 2px 5px rgb(0, 0, 0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     padding: 1rem;
+    transition: box-shadow 0.3s ease;
 }
 
 /* Logo styling */
-.main header .logo {
+.logo {
     width: 80px;
-    /* Adjust logo size */
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 /* Navigation menu */
@@ -42,10 +48,12 @@ body {
     color: white;
     text-decoration: none;
     font-size: 1.2rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .nav-links a:hover {
     color: #e74c3c;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Hide and show sections dynamically */
@@ -84,7 +92,7 @@ main {
 .btn-upload {
     display: inline-block;
     margin: 20px 0;
-    background-color: #3498db;   
+    background: linear-gradient(45deg, #3498db, #0b72b6);   
     color: #fff;                 
     padding: 10px 20px;          
     border-radius: 3px;          
@@ -93,12 +101,14 @@ main {
     text-decoration: none;       
     border: none;                
     cursor: pointer;             
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-random:hover, 
 .btn-upload:hover {
-    background-color: #2980b9;
+    background: linear-gradient(45deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .gallery-container {
@@ -144,17 +154,32 @@ main {
 
 /* Right-side controls grid: now with 5 rows */
 .editor-controls {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto auto auto auto auto;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
     width: 300px;
+}
+
+.control-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* Row 1: Meme text spanning all columns */
 .editor-controls .meme-text {
     grid-column: 1 / -1;
     grid-row: 1;
+    padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.editor-controls .meme-text:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
 }
 
 /* Row 2: Color controls */
@@ -166,6 +191,10 @@ main {
 .editor-controls .text-color-picker {
     grid-column: 3 / span 2;
     grid-row: 2;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
 }
 
 /* Row 3: Font size controls */
@@ -178,6 +207,30 @@ main {
     grid-column: 3 / span 2;
     grid-row: 3;
 }
+
+#font-size-meter {
+    -webkit-appearance: none; /* Remove default appearance (Chrome, Safari) */
+    -moz-appearance: none;    /* Remove default appearance (Firefox) */
+    width: 100%;
+    height: 6px;
+    background: #ddd;
+    outline: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  
+  /* Slider thumb for WebKit browsers (Chrome, Safari) */
+  #font-size-meter::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #3498db;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 
 /* Row 4: New controls for font family and alignment */
 .editor-controls .controls {
@@ -196,11 +249,46 @@ main {
     gap: 5px;
 }
 
+#fontSelect {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1rem;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    appearance: none;       /* Remove default dropdown arrow if needed */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'5'%20viewBox%3D'0%200%2010%205'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpolygon%20points%3D'0,0%205,5%2010,0'%20fill%3D'%23999'%20/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 5px;
+  }
+
 /* Nested grid: alignment controls row */
 .editor-controls .align-control {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
+}
+
+.align-control button {
+    padding: 8px 12px;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.align-control button:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
 }
 
 /* Row 5: Action buttons */
@@ -222,6 +310,34 @@ main {
 .editor-controls .btn-back {
     grid-column: 4;
     grid-row: 5;
+}
+
+/* Styling for action buttons inside the editor-controls */
+.editor-controls button,
+.editor-controls a {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background: linear-gradient(45deg, #e67e22, #d35400);
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.editor-controls button:hover,
+.editor-controls a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    background: linear-gradient(45deg, #d35400, #e67e22);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; 
+    align-items: center;
 }
 
 /* Optional: Responsive adjustments for tablet devices */

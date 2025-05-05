@@ -26,6 +26,7 @@ var gMeme = {
     selectedLineIdx: 0,
     selectedFont: 'Arial',
     textAlign: 'center',
+    isDragging: false,
     lines: [
         {
             txt: 'Your Meme Text Here',
@@ -49,6 +50,9 @@ function getImageById(imgId) {
 
 // Function to retrieve the current meme object
 function getMeme() {
+    if (!gMeme.isDragging) {
+        gMeme.selectedLineIdx = null
+    }
     return gMeme
 }
 
@@ -103,6 +107,5 @@ function getEvPos(ev) {
         }
     }
 
-    console.log(`getEvPos - X: ${pos.x}, Y: ${pos.y}`)
     return pos
 }

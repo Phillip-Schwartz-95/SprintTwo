@@ -16,7 +16,8 @@
 
 <body onload="onInit()">
     <header class="main-header">
-        <img src="img/logo.png" alt="Meme Generator Logo" class="logo" onclick="showGallery()">
+        <img src="square-img/Meme-Face-Transparent.png" alt="Meme Generator Logo" class="logo"
+            onclick="toggleEditor(false)">
 
         <nav class="nav-links">
             <a href="#" onclick="toggleEditor(false)">Gallery</a>
@@ -47,23 +48,33 @@
         <section class="meme-editor hidden">
             <h2 class="section-title">Edit Your Meme</h2>
             <div class="editor-container">
-                <canvas class="meme-canvas"></canvas>
+                <canvas class="meme-canvas" onmousedown="onCanvasClick(event)" onmousemove="onMove(event)"
+                    onmouseup="onUp()" ontouchstart="onCanvasClick(event)" ontouchmove="onMove(event)"
+                    ontouchend="onUp()"></canvas>
                 <div class="editor-controls">
                     <!-- Row 1: Meme Text Input -->
-                    <input type="text" class="meme-text" placeholder="Enter meme text" oninput="onLineTxtChange()">
+                    <div class="control-row">
+                        <input type="text" class="meme-text" placeholder="Enter meme text" oninput="onLineTxtChange()">
+                    </div>
 
                     <!-- Row 2: Color Controls -->
-                    <label for="text-color-picker" class="color-label">Select Text Color:</label>
-                    <input type="color" class="text-color-picker" oninput="onSetColor()">
+                    <div class="control-row">
+                        <label class="text-color-label" for="text-color-picker">
+                            <i class="fas fa-fill-drip"></i> Text Color
+                        </label>
+                        <input type="color" id="text-color-picker" class="text-color-picker" value="#ffffff"
+                            oninput="onSetColor()">
+                    </div>
 
                     <!-- Row 3: Font Size Controls -->
-                    <label for="font-size-meter" class="size-label">Adjust Font Size:</label>
-                    <input type="range" id="font-size-meter" min="10" max="100" value="20" oninput="onFontSizeChange()">
+                    <div class="control-row">
+                        <label for="font-size-meter" class="size-label">Adjust Font Size:</label>
+                        <input type="range" id="font-size-meter" min="10" max="100" value="20"
+                            oninput="onFontSizeChange()">
+                    </div>
 
-                    <!-- Row 4: New Controls for Font Family & Alignment -->
-                    <div class="controls">
-
-                        <!-- Nested row for font selection -->
+                    <!-- Row 4: Font Family & Alignment -->
+                    <div class="control-row controls">
                         <div class="font-control">
                             <label for="fontSelect">Choose Font:</label>
                             <select id="fontSelect" onchange="onChangeFont(this.value)">
@@ -73,11 +84,8 @@
                                 <option value="Tahoma">Tahoma</option>
                                 <option value="Times New Roman">Times New Roman</option>
                                 <option value="Impact">Impact</option>
-                                <!-- Add more fonts as desired -->
                             </select>
                         </div>
-
-                        <!-- Nested row for alignment buttons -->
                         <div class="align-control">
                             <button onclick="onChangeAlignment('left')" title="Align Left">
                                 <i class="fa-solid fa-align-left"></i>
@@ -92,18 +100,22 @@
                     </div>
 
                     <!-- Row 5: Action Buttons -->
-                    <button class="btn-add" onclick="onAddLine()">➕ Add Line</button>
-                    <button class="btn-switch" onclick="onSwitchLine()">🔄 Switch Line</button>
-                    <button class="btn-delete" onclick="onDeleteLine()">✖ Delete Selected Line</button>
-                    <button class="btn-download" onclick="onDownloadMeme(this)" download="meme.jpg">
-                        <i class="fas fa-download"></i> Download Meme
-                    </button>
-                    <button class="btn-save" onclick="onSaveMeme()">
-                        <i class="fa-solid fa-save"></i> Save Meme
-                    </button>
-                    <button class="btn-back" onclick="toggleEditor(false)">⬅️ Back to Gallery</button>
+                    <div class="control-row">
+                        <button class="btn-add" onclick="onAddLine()">➕ Add Line</button>
+                        <button class="btn-switch" onclick="onSwitchLine()">🔄 Switch Line</button>
+                        <button class="btn-delete" onclick="onDeleteLine()">✖ Delete Selected Line</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-download" onclick="onDownloadMeme(this)" download="meme.jpg">
+                            <i class="fas fa-download"></i> Download Meme
+                        </button>
+                        <button class="btn-save" onclick="onSaveMeme()">
+                            <i class="fa-solid fa-save"></i> Save Meme
+                        </button>
+                        <button class="btn-back" onclick="toggleEditor(false)">⬅️ Back to Gallery</button>
+                    </div>
                 </div>
-            </div>
+
         </section>
 
         <!-- Saved Memes Section -->

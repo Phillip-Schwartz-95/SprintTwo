@@ -2,6 +2,8 @@
 
 var gElCanvas
 var gCtx
+var gStartPos = { x: 0, y: 0 }
+
 
 function onInit() {
     gElCanvas = document.querySelector('.meme-canvas')
@@ -42,7 +44,7 @@ function renderMeme() {
         img.src = meme.selectedImgUrl
     } else {
         img.src = getImageById(meme.selectedImgId).url
-    }    
+    }
 
     img.onload = () => {
         gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
@@ -167,29 +169,21 @@ function onSwitchLine() {
     renderMeme()
 }
 
+//update the DOM of selected line
 function updateEditor(line) {
     document.querySelector('.meme-text').value = line.txt
     document.querySelector('.text-color-picker').value = line.color
     document.querySelector('#font-size-meter').value = line.size
 }
 
+
 function onCanvasClick(ev) {
     ev.preventDefault() // Prevent any default behavior
 
-    // Get the canvas's bounding rectangle
-    const getEvPos = (ev) => {
-        const rect = gElCanvas.getBoundingClientRect()
-        // Helper to convert event coordinates to canvas coordinates
-        const scaleX = gElCanvas.width / rect.width
-        const scaleY = gElCanvas.height / rect.height
-        return {
-            x: (ev.clientX - rect.left) * scaleX,
-            y: (ev.clientY - rect.top) * scaleY,
-        }
-    }
-
     const pos = getEvPos(ev)
-    console.log('Canvas clicked at (scaled):', pos)
+
+
+    let isLineClicked = false
 
     gMeme.lines.forEach((line, idx) => {
         // Set font size so measurements are accurate.
@@ -198,7 +192,7 @@ function onCanvasClick(ev) {
 
         // Use line.size for approx text height
         const textHeight = line.size
-        const textWidth = textMetrics.width;
+        const textWidth = textMetrics.width
 
         // Calculate the clickable area with padding
         const padding = 10
@@ -216,21 +210,61 @@ function onCanvasClick(ev) {
             clickPos: pos
         })
 
-        const isInBounds =
-            pos.x >= bounds.left &&
-            pos.x <= bounds.right &&
-            pos.y >= bounds.top &&
-            pos.y <= bounds.bottom;
+        if (pos.x >= bounds.left && pos.x <= bounds.right &&
+            pos.y >= bounds.top && pos.y <= bounds.bottom) {
 
-        console.log(`Line ${idx} clicked:`, isInBounds)
-
-        if (isInBounds) {
-            console.log(`✅ Selected line ${idx}: "${line.txt}"`)
             gMeme.selectedLineIdx = idx
-            updateEditor(line)
-            renderMeme()
+            gMeme.isDragging = true // dragging
+            gStartPos = pos
+            isLineClicked = true
         }
     })
+    if (!isLineClicked) {
+        gMeme.selectedLineIdx = null
+        gMeme.isDragging = false
+    }
+}
+
+function onMove(ev) {
+    console.log("onMove() triggered, isDragging:", gMeme.isDragging)
+
+    if (!gMeme.isDragging) {
+        console.log(" Movement stopped: isDragging is FALSE!")
+        return
+    }
+
+    if (gMeme.selectedLineIdx === null) {
+        console.log(" Movement stopped: no selected line!")
+        return
+    }
+
+    const pos = getEvPos(ev)
+    const dx = pos.x - gStartPos.x
+    const dy = pos.y - gStartPos.y
+
+    const selectedLine = gMeme.lines[gMeme.selectedLineIdx]
+    if (!selectedLine) return
+
+    selectedLine.x += dx
+    selectedLine.y += dy
+
+    gStartPos = pos
+    renderMeme()
+
+    console.log(` Text moved to X:${selectedLine.x}, Y:${selectedLine.y}`)
+}
+
+
+function onUp() {
+    console.log(" onUp() TRIGGERED") // Debugging log
+
+    if (!gMeme.isDragging) return
+
+    gMeme.isDragging = false
+    gMeme.selectedLineIdx = null
+    gStartPos = { x: 0, y: 0 }
+
+    console.log(" isDragging after reset:", gMeme.isDragging)
 }
 
 function onChangeFont(font) {

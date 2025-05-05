@@ -73,7 +73,7 @@ function renderMeme() {
             gCtx.fillText(line.txt, line.x, line.y)
 
             // If selected, draw a white highlight (existing code, like switch line function)
-            if (idx === gMeme.selectedLineIdx) {
+            if (gMeme.selectedLineIdx !== null && idx === gMeme.selectedLineIdx) {
                 gCtx.strokeStyle = 'white'
                 gCtx.lineWidth = 2
                 const padding = 10
@@ -242,6 +242,7 @@ function onCanvasClick(ev) {
         gMeme.selectedLineIdx = null
         gMeme.isDragging = false
     }
+    renderMeme() // to take away the border if clicked outside of line coordinates
 }
 
 function onMove(ev) {
